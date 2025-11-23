@@ -108,7 +108,7 @@ function showQuestion() {
     // Add new options with mobile-friendly styling
     question.options.forEach((option, index) => {
         const button = document.createElement('button');
-        button.className = 'option w-full text-left p-4 sm:p-5 rounded-xl border-2 border-gray-600 hover:border-purple-500 transition-all duration-200 bg-gray-700/50 hover:bg-purple-900/20 text-base sm:text-lg touch-button';
+        button.className = 'option';
         button.textContent = option;
         
         // Add click handler
