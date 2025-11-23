@@ -461,8 +461,8 @@ p {
     width: 100%;
     text-align: left;
     padding: 1.125rem 1rem;
-    background-color: rgba(55, 65, 81, 0.6);
-    border: 2px solid var(--border);
+    background-color: rgba(55, 65, 81, 0.8);
+    border: 2px solid rgba(156, 163, 175, 0.3);
     border-radius: 0.875rem;
     transition: all 0.2s ease;
     font-size: clamp(0.95rem, 3vw, 1.0625rem);
@@ -475,13 +475,16 @@ p {
     font-weight: 500;
     position: relative;
     overflow: hidden;
+    color: #f3f4f6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .option:hover:not(:disabled) {
-    background-color: rgba(124, 58, 237, 0.2);
+    background-color: rgba(124, 58, 237, 0.3);
     border-color: #7c3aed;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    color: #ffffff;
 }
 
 .option:active:not(:disabled) {
@@ -496,17 +499,17 @@ p {
 }
 
 .option.correct {
-    background-color: rgba(16, 185, 129, 0.3);
+    background-color: rgba(16, 185, 129, 0.4);
     border-color: #10b981;
     color: #6ee7b7;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
 }
 
 .option.incorrect {
-    background-color: rgba(239, 68, 68, 0.3);
+    background-color: rgba(239, 68, 68, 0.4);
     border-color: #ef4444;
     color: #fca5a5;
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
 }
 
 /* Feedback */
