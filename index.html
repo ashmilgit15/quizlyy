@@ -1,7 +1,152 @@
-qizcarahref="#" ; return false;qzcdesub">
-                   <di class="quizcadc">
-                  <ivcl="quzcd-t">RumQiz</div    quzad-ubtl">Coinu fom where you left off</div</div>
-                quizcadarrowfooornaquzageqzhadrahref="#" ;nfas;"as="akwidth"20eigt="0aquioncounquiztitleprogresscontainerprosbaquonoainqstioxquttotionfbck"action-buttons>
-                    <divcass="actionbuttn    tb              g                  </div>
-        rsugsuccessiconcsicuccescckrsulsontidrusl"cls="sulsteesltsc-rsulscorelrussorersulssco-umberrsulstotlrsulstotlruscaprforancmssaerestbuttonbccn hiddetby
-                bgy
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizly - Biology Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page landing-page">
+            <h1>Quizly</h1>
+            <p>Test Your Biology Knowledge</p>
+            
+            <div class="quiz-cards">
+                <a href="#" onclick="startQuiz(4); return false;" class="quiz-card">
+                    <div class="quiz-card-content">
+                        <div class="quiz-card-title">Chapter 4 Quiz</div>
+                        <div class="quiz-card-subtitle">Chemoreception in Organisms</div>
+                    </div>
+                    <svg class="quiz-card-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+                
+                <a href="#" onclick="startQuiz(5); return false;" class="quiz-card indigo">
+                    <div class="quiz-card-content">
+                        <div class="quiz-card-title">Chapter 5 Quiz</div>
+                        <div class="quiz-card-subtitle">Immunity and Healthcare</div>
+                    </div>
+                    <svg class="quiz-card-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            
+            <div id="resume-container" class="hidden quiz-cards">
+                <a href="#" onclick="resumeQuiz(); return false;" class="quiz-card resume-btn">
+                    <div class="quiz-card-content">
+                        <div class="quiz-card-title">Resume Quiz</div>
+                        <div class="quiz-card-subtitle">Continue from where you left off</div>
+                    </div>
+                    <svg class="quiz-card-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="footer">
+                Created by <span class="footer-name">Ashmil</span>
+            </div>
+        </div>
+        
+        <!-- Quiz Page -->
+        <div id="quiz-page" class="page quiz-page">
+            <div class="quiz-header">
+                <a href="#" onclick="goHome(); return false;" class="back-btn">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    <span>Back</span>
+                </a>
+                <div class="question-count">
+                    <span id="question-count">Question 1 of 10</span>
+                </div>
+            </div>
+            
+            <div class="quiz-title">
+                <h2 id="quiz-title"></h2>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progress-bar" class="progress" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question-box">
+                    <h3 id="question-text" class="question-text"></h3>
+                    
+                    <div id="options-container" class="options">
+                        <!-- Options will be added by JavaScript -->
+                    </div>
+                    
+                    <div id="feedback" class="feedback"></div>
+                </div>
+                
+                <div class="action-buttons">
+                    <div class="action-buttons-row">
+                        <button id="next-button" onclick="nextQuestion()" disabled class="btn btn-primary">
+                            Next Question
+                        </button>
+                        
+                        <button id="end-quiz-button" onclick="endQuiz()" class="btn btn-danger">
+                            End Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Page -->
+        <div id="results-page" class="page results-page">
+            <div class="success-icon">
+                <div class="success-circle">
+                    <svg class="success-check" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="results-content">
+                <h2 id="results-title" class="results-title">Quiz Completed!</h2>
+                
+                <div class="results-score-box">
+                    <div class="results-score-label">Your score:</div>
+                    <div class="results-score">
+                        <span id="score" class="results-score-number">0</span>
+                        <span class="results-total">/</span>
+                        <span id="total-questions" class="results-total">0</span>
+                    </div>
+                    <div id="percentage" class="results-percentage">0%</div>
+                </div>
+                
+                <div id="performance-message" class="performance-message"></div>
+            </div>
+            
+            <div class="results-buttons">
+                <button id="continue-quiz-button" onclick="continueQuiz()" class="btn btn-success hidden">
+                    Continue Quiz
+                </button>
+                
+                <button onclick="restartQuiz()" class="btn btn-primary">
+                    Try Again
+                </button>
+                
+                <button onclick="goHome()" class="btn btn-gray">
+                    Back to Home
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="quizData.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
