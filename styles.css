@@ -69,7 +69,8 @@ body::after {
     animation: fadeIn 0.5s ease-in-out;
 }
 
-.page.active {
+.page.active,
+.page:not(.hidden) {
     display: flex;
 }
 
