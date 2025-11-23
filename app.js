@@ -128,7 +128,8 @@ function handleAnswer(selectedAnswer, buttonElement) {
     // Disable all options
     document.querySelectorAll('.option').forEach(option => {
         option.disabled = true;
-        option.classList.add('cursor-not-allowed', 'opacity-70');
+        option.style.cursor = 'not-allowed';
+        option.style.opacity = '0.7';
     });
     
     const currentQuestion = currentQuiz.questions[currentQuestionIndex];
@@ -137,29 +138,28 @@ function handleAnswer(selectedAnswer, buttonElement) {
     // Update score if correct
     if (isCorrect) {
         score++;
-        buttonElement.classList.add('bg-green-600/30', 'border-green-500', 'text-green-100');
+        buttonElement.classList.add('correct');
         showFeedback('Correct! 🎉', true);
         
         // Add success animation
-        buttonElement.classList.add('animate-pulse');
+        buttonElement.style.animation = 'pulse 0.5s ease-in-out';
     } else {
-        buttonElement.classList.add('bg-red-600/30', 'border-red-500', 'text-red-100');
+        buttonElement.classList.add('incorrect');
+        showFeedback(`Incorrect! The correct answer is: ${currentQuestion.correctAnswer}`, false);
         
-        // Highlight the correct answer
+        // Show the correct answer
         document.querySelectorAll('.option').forEach(option => {
-            if (option.textContent === currentQuestion.correctAnswer) {
-                option.classList.add('bg-green-600/30', 'border-green-500', 'text-green-100');
+            if (option.textContent.trim() === currentQuestion.correctAnswer) {
+                option.classList.add('correct');
             }
         });
-        
-        showFeedback(`Incorrect. The correct answer is: ${currentQuestion.correctAnswer}`, false);
     }
-    
-    // Save progress after answering
-    saveQuizState(currentChapter, currentQuestionIndex, score);
     
     // Enable next button
     nextButton.disabled = false;
+    
+    // Save state
+    saveQuizState(currentChapter, currentQuestionIndex, score);
     
     // Focus next button for better UX
     setTimeout(() => nextButton.focus(), 100);
@@ -168,11 +168,12 @@ function handleAnswer(selectedAnswer, buttonElement) {
 // Show feedback for the current answer
 function showFeedback(message, isCorrect) {
     feedback.textContent = message;
-    feedback.className = `mt-4 p-3 sm:p-4 rounded-xl text-center font-medium animate-slide-up ${
-        isCorrect 
-            ? 'bg-green-600/20 border border-green-500/50 text-green-100' 
-            : 'bg-red-600/20 border border-red-500/50 text-red-100'
-    }`;
+    feedback.className = 'feedback';
+    if (isCorrect) {
+        feedback.classList.add('correct');
+    } else {
+        feedback.classList.add('incorrect');
+    }
     feedback.classList.remove('hidden');
 }
 
@@ -199,6 +200,16 @@ function showResults(isEarlyEnd = false) {
     const attemptedQuestions = isEarlyEnd ? currentQuestionIndex : totalQuestions;
     const percentage = attemptedQuestions > 0 ? Math.round((score / attemptedQuestions) * 100) : 0;
     
+    // Debug logging
+    console.log('Results:', {
+        score,
+        totalQuestions,
+        attemptedQuestions,
+        percentage,
+        isEarlyEnd,
+        currentQuestionIndex
+    });
+    
     // Update results page
     scoreElement.textContent = score;
     totalQuestionsElement.textContent = attemptedQuestions;
@@ -208,13 +219,13 @@ function showResults(isEarlyEnd = false) {
     const resultsTitle = document.querySelector('#results-page h2');
     if (isEarlyEnd) {
         resultsTitle.textContent = 'Quiz Ended Early';
-        resultsTitle.className = 'text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-red-400';
+        resultsTitle.className = 'results-title early-end';
         
         // Show continue button for early end
         document.getElementById('continue-quiz-button').classList.remove('hidden');
     } else {
         resultsTitle.textContent = 'Quiz Completed!';
-        resultsTitle.className = 'text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-400';
+        resultsTitle.className = 'results-title';
         
         // Hide continue button for completed quiz
         document.getElementById('continue-quiz-button').classList.add('hidden');
@@ -331,10 +342,14 @@ function checkSavedQuiz() {
         resumeContainer.classList.remove('hidden');
         
         // Update resume button text with progress
-        const resumeButton = resumeContainer.querySelector('button');
-        const progress = Math.round((savedState.questionIndex / quizData[savedState.chapter].questions.length) * 100);
-        const progressText = resumeButton.querySelector('.text-xs');
-        progressText.textContent = `Continue from question ${savedState.questionIndex + 1} (${progress}% complete)`;
+        const resumeButton = resumeContainer.querySelector('a');
+        if (resumeButton) {
+            const progress = Math.round((savedState.questionIndex / quizData[savedState.chapter].questions.length) * 100);
+            const subtitleElement = resumeButton.querySelector('.quiz-card-subtitle');
+            if (subtitleElement) {
+                subtitleElement.textContent = `Continue from question ${savedState.questionIndex + 1} (${progress}% complete)`;
+            }
+        }
     }
 }
 
